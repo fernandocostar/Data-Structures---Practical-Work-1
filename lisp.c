@@ -22,8 +22,7 @@ int resolve_lisp(char *texto, int pos, int tam){ //funcao que analisa o balancea
         atual = pop(&p); //retiramos o ultimo elemento da pilha e armazenamos na variavel auxiliar atual
 
         /*visto que estaremos desempilhando o texto de tras para frente devemos checar se a posicao que estamos
-        e igual ao tamanho total do texto - 1 (indice comeca em 0) e igual a posicao que devemos olhar o nivel
-        do char*/     
+        e igual ao tamanho total do texto - 1 e igual a posicao que devemos olhar o nivel do char*/     
 		if(i == (tam-1) - pos) nivel = cont; //caso estejamos na posicao desejada, resultado True, guardaremos como nivel o numero de parenteses abertos ate o momento
         
         if(atual == ')') cont++; //contador incrementa para cada parentese aberto (visto que estamos olhando de tras para frente devido ao uso de uma so pilha).
