@@ -21,27 +21,29 @@ int resolve_lisp(char *texto, int pos, int tam){ //funcao que analisa o balancea
 	Pilha p = create(); //criando uma Pilha para armazenar os caracteres do codigo em Lisp
 	int i, nivel, cont = 0; //declarando variaveis, sendo nivel o nivel onde o caracter no indice pos se encontrará e cont sera utilizado para o balanceamento de parenteses (numero de parenteses abertos)
 	char atual; //variavel do tipo char que auxiliara na analise char por char a seguir
+
 	for(i = 0; i <= tam; i++){ //adicionando todos os caracteres na pilha criada
-		push(&p, texto[i]);
+		push(&p, texto[i]); //adicionamos o caracter lido da vez na pilha criada
+
+		atual = pop(&p); //guardamos o caracter lido em uma variavel auxiliar retirando o ultimo elemento da pilha
+
+		if(i == pos){
+			nivel = cont; //caso estejamos na posicao desejada, resultado True, guardaremos como nivel o numero de parenteses abertos ate o momento	
+		}
+		if(atual == '('){
+			cont++; //contador incrementa para cada parentese aberto.
+		}else if(atual == ')'){
+			cont--; //contador decrementa para cada parentese fechado
+		}
+		if(cont < 0){
+			return -1; //ao fechar um parentese sem ter aberto um anteriormente retornamos -1, sinal de quebra de regra (ex.: (teste(n))(, retorna -1 na primeira iteração) 		
+		}
 	}
 
-	i = 0; //controlar posicao
-	while(isEmpty(p) == 0){ //enquanto a pilha nao estiver vazia para checar todos os caracteres
-        atual = pop(&p); //retiramos o ultimo elemento da pilha e armazenamos na variavel auxiliar atual
-
-        /*visto que estaremos desempilhando o texto de tras para frente devemos checar se a posicao que estamos
-        e igual ao tamanho total do texto - 1 e igual a posicao que devemos olhar o nivel do char*/     
-		if(i == (tam-1) - pos){
-			nivel = cont; //caso estejamos na posicao desejada, resultado True, guardaremos como nivel o numero de parenteses abertos ate o momento
-        }
-        if(atual == ')') cont++; //contador incrementa para cada parentese aberto (visto que estamos olhando de tras para frente devido ao uso de uma so pilha).
-        else if(atual == '(') cont--; //contador decrementa para cada parentese fechado
-
-        if(cont < 0) return -1; //ao fechar um parentese sem ter aberto um anteriormente retornamos -1, sinal de quebra de regra (ex.: (teste(n))(, retorna -1 na primeira volta do loop)
-        i++; //incrementa posicao
+	if(cont == 0){
+		return nivel; //se o programa chegou ate aqui ele seguiu a ordem dos parenteses, logo basta checar se ( e ) tem a mesma quantidade
 	}
-
-	if(cont == 0) return nivel; //se o programa chegou ate aqui ele seguiu a ordem dos parenteses, logo basta checar se ( e ) tem a mesma quantidade
+	
 	return -1; //caso chegue aqui é sinal de que temos mais parenteses abrindo do que fechando, logo balanceamento incorreto
 }
 

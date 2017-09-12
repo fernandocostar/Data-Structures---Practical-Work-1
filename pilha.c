@@ -2,9 +2,9 @@
 #include <stdlib.h>
 
 Pilha create(){
-	Pilha* p = (Pilha*) malloc(sizeof(Pilha)); //alocando memoria para todos os dados declarados no tipo Pilha definidos em pilha.h
-	p -> topo = -1; //topo igual a -1 se quisermos declarar uma pilha nao vazia iniciando em 0, comum em programacao
-	return (*p); //retornando o conteudo da memoria referente ao ponteiro p
+	Pilha p;
+	p.topo = -1; //topo igual a -1 se quisermos declarar uma pilha nao vazia iniciando em 0, comum em programacao
+	return p; //retornando o conteudo da memoria referente ao ponteiro p
 }
 
 char pop(Pilha* p){ //"remove" o elemento mais externo da pilha e o retorna
@@ -32,6 +32,3 @@ int isEmpty(Pilha p) {return p.topo == -1;} //verifica se esta vazia a partir do
 int isFull(Pilha p) {return p.topo == 99;} //verifica se esta vazia a partir do topo
 
 int size(Pilha p) {return p.topo + 1;} //retorna o tamanho da pilha somando um para representar a quantidade de itens
-
-
-
