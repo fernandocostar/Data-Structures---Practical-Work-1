@@ -19,31 +19,29 @@ int resolve_lisp(char *texto, int pos, int tam){ //funcao que analisa o balancea
 	/* -1 RETORNA ERRO NO BALANCEAMENTO, CASO CONTRARIO O RETORNO SERA O NIVEL EM QUE O CARACTER DESEJADO SE ENCONTRA*/
 
 	Pilha p = create(); //criando uma Pilha para armazenar os caracteres do codigo em Lisp
-	int i, nivel, cont = 0; //declarando variaveis, sendo nivel o nivel onde o caracter no indice pos se encontrará e cont sera utilizado para o balanceamento de parenteses (numero de parenteses abertos)
+	int i, nivel; //declarando variaveis, sendo nivel o nivel onde o caracter no indice pos se encontrará e cont sera utilizado para o balanceamento de parenteses (numero de parenteses abertos)
 	char atual; //variavel do tipo char que auxiliara na analise char por char a seguir
 
 	for(i = 0; i <= tam; i++){ //adicionando todos os caracteres na pilha criada
-		push(&p, texto[i]); //adicionamos o caracter lido da vez na pilha criada
+		atual = texto[i];
 
-		atual = pop(&p); //guardamos o caracter lido em uma variavel auxiliar retirando o ultimo elemento da pilha
-
-		if(i == pos){
-			nivel = cont; //caso estejamos na posicao desejada, resultado True, guardaremos como nivel o numero de parenteses abertos ate o momento	
+		if(i == tam-pos-1){ //quando chegarmos na posicao desejada armazenamos em nivel o tamanho de parenteses abertos como sendo o tamanho da pilha
+			nivel = size(p);
 		}
-		if(atual == '('){
-			cont++; //contador incrementa para cada parentese aberto.
+
+		if(atual == '('){ //se estivermos abrindo parenteses adicionamos a pilha
+			push(&p, atual);
 		}else if(atual == ')'){
-			cont--; //contador decrementa para cada parentese fechado
-		}
-		if(cont < 0){
-			return -1; //ao fechar um parentese sem ter aberto um anteriormente retornamos -1, sinal de quebra de regra (ex.: (teste(n))(, retorna -1 na primeira iteração) 		
+			atual = pop(&p);
+			if(atual == '\\'){ //se a pilha estiver vazia quer dizer que tentamos fechar um parentese nao aberto
+				return -1;
+			}
 		}
 	}
 
-	if(cont == 0){
+	if(isEmpty(p)){
 		return nivel; //se o programa chegou ate aqui ele seguiu a ordem dos parenteses, logo basta checar se ( e ) tem a mesma quantidade
 	}
-	
 	return -1; //caso chegue aqui é sinal de que temos mais parenteses abrindo do que fechando, logo balanceamento incorreto
 }
 
